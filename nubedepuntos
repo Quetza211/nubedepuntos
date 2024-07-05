@@ -1,0 +1,47 @@
+#ifdef __APPLE__
+# include <OpenGL/gl.h>
+# include <OpenGL/glu.h>
+# include <GLUT/glut.h>
+#else
+# include <GL/gl.h>
+# include <GL/glu.h>
+# include <GL/glut.h>
+#endif
+//Libreria para los numeros random
+#include<time.h>
+
+void init(){
+	glClearColor(1.0,1.0,1.0,0.0);
+	glMatrixMode(GL_PROJECTION);
+	gluOrtho2D(0.0,300.0,0.0,300.0);
+}
+	void Puntos(){
+		glClear(GL_COLOR_BUFFER_BIT);
+		int num=60; //Se muestra cuantos puntos(cuadros) se quieren visualizar 
+		for(int i=0;i<num;i++){
+			int color=rand()%2; //Numero aleatorio entre 0 y 1(Color)
+			int color2=rand()%2;
+			int color3=rand()%2;
+			int grosor=rand()%50; //Numero aleatorio entre 0 y 200(Grosor)
+			int coord=rand()%301; //Numero aleatorio entre 0 y 200(Coordenadas)
+			int coord1=rand()%301;
+			glColor3f(color,color2,color3); //Color
+			glPointSize(grosor); //Grosor
+			
+			glBegin(GL_POINTS);
+			glVertex2f(coord,coord1);
+			
+			glEnd();
+			glFlush();
+		}
+	}
+		int main(int argc,char** argv){
+			srand(time(NULL)); //Inicializa los numeros aleatorios
+			glutInit(&argc,argv);
+			glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+			glutInitWindowSize(400,400);
+			glutCreateWindow("Nube de Puntos");
+			init();
+			glutDisplayFunc(Puntos);
+			glutMainLoop();
+		}
